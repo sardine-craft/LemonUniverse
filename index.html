@@ -5,6 +5,7 @@
         <title>LemonUniverse Animate</title>
     </head>
     <body>
+        <img src="./perlin_noise.jpg" id="noise" height="5" width="5">
         <script>
             var canvas = document.createElement("canvas");
             canvas.setAttribute("id", "display");
@@ -20,12 +21,15 @@
             resizeDisplay();
             window.addEventListener("resize", resizeDisplay);
         </script>
+        <script src="./animation.js"></script>
         <script src="./drawStyle.js"></script>
         <script src="./pen.js"></script>
         <button onclick="window.history.back()">back</button>
         <button onclick="window.history.forward()">forward</button>
         <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear</button>
-        <p id="history"></p>
+        <button onclick="animation.push(new Frame(animation.length, layers))">save frame</button>
+        <button>next frame</button>
+        <button>previous frame</button>
     </body>
     <style>
         body {
@@ -37,6 +41,9 @@
             left: 0;
             position: fixed;
             z-index: -1;
+        }
+        img {
+            display: none;
         }
     </style>
 </html>

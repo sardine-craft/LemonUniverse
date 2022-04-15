@@ -19,6 +19,9 @@ let sY;
 var penIsDown = false;
 var layerCount = 0;
 
+
+var mouseX = 0;
+var mouseY = 0;
 function penDown (e) {
     sX = e.x;
     sY = e.y;
@@ -41,17 +44,22 @@ function addToPathByLayerName (name, data) {
     return layers.find(p => p.name === name).path.push(data);
 }
 
-function penTo (e) {
+var smoothing = 2;
+function penTo () {
+    sX = sX + ((mouseX - sX) * (1 / smoothing));
+    sY = sY + ((mouseY - sY) * (1 / smoothing));
     if (penIsDown) {
-        ctx.lineTo(e.x, e.y);
+        ctx.lineTo(sX, sY);
         ctx.stroke();
         addToPathByLayerName(layerCount, {
-            x: e.x,
-            y: e.y,
+            x: sX,
+            y: sY,
             w: ctx.lineWidth
         });
     }
 }
+
+setInterval(penTo, 30);
 
 function clear() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -60,24 +68,25 @@ function clear() {
 
 
 function renderLayer() {
-    document.getElementById("history").innerText = historyPosition;
     clear(); 
     for (i = 0; i < history.state.state.length; i++) {
-        // ctx.beginPath();
-        // ctx.moveTo(layers[i].path[0].x, layers[i].path[0].y);
+        ctx.beginPath();
+        ctx.moveTo(layers[i].path[0].x, layers[i].path[0].y);
         for (j = 0; j < history.state.state[i].path.length - 1; j++) {
-            ctx.lineWidth = history.state.state[i].path[j].w;
-            ctx.beginPath();
-            ctx.moveTo(history.state.state[i].path[j].x, history.state.state[i].path[j].y)
-            ctx.lineTo(history.state.state[i].path[j + 1].x, history.state.state[i].path[j + 1].y);
-            ctx.stroke();
+            // ctx.lineWidth = history.state.state[i].path[j].w;
+            // ctx.beginPath();
+            // ctx.moveTo(history.state.state[i].path[j].x, history.state.state[i].path[j].y)
+            let px = history.state.state[i].path[j + 1].x;
+            let py = history.state.state[i].path[j + 1].y
+            ctx.lineTo(px, py);
+            // ctx.stroke();
         }
-        // ctx.stroke();
+        ctx.stroke();
         
     }
 }
 
 display.addEventListener("mousedown", penDown);
-display.addEventListener("mousemove", penTo);
+display.addEventListener("mousemove", (e) => {mouseX = e.x; mouseY = e.y; return;});
 display.addEventListener("mouseup", (e) => {penIsDown = false; remember(layers); renderLayer(); return;});
 window.addEventListener("popstate", function () {renderLayer(); historyPosition = history.state.position; layers = history.state.state; return});
