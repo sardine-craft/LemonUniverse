@@ -1,4 +1,3 @@
-var layers = [];
 var historyPosition = 0;
 history.pushState({position: historyPosition, state: null}, `page: ${historyPosition}`, `?page=${historyPosition}`)
 
@@ -69,15 +68,15 @@ function clear() {
 
 function renderLayer() {
     clear(); 
-    for (i = 0; i < history.state.state.length; i++) {
+    for (i = 0; i < layers.length; i++) {
         ctx.beginPath();
         ctx.moveTo(layers[i].path[0].x, layers[i].path[0].y);
-        for (j = 0; j < history.state.state[i].path.length - 1; j++) {
+        for (j = 0; j < layers[i].path.length - 1; j++) {
             // ctx.lineWidth = history.state.state[i].path[j].w;
             // ctx.beginPath();
             // ctx.moveTo(history.state.state[i].path[j].x, history.state.state[i].path[j].y)
-            let px = history.state.state[i].path[j + 1].x;
-            let py = history.state.state[i].path[j + 1].y
+            let px = layers[i].path[j + 1].x;
+            let py = layers[i].path[j + 1].y
             ctx.lineTo(px, py);
             // ctx.stroke();
         }
@@ -89,4 +88,4 @@ function renderLayer() {
 display.addEventListener("mousedown", penDown);
 display.addEventListener("mousemove", (e) => {mouseX = e.x; mouseY = e.y; return;});
 display.addEventListener("mouseup", (e) => {penIsDown = false; remember(layers); renderLayer(); return;});
-window.addEventListener("popstate", function () {renderLayer(); historyPosition = history.state.position; layers = history.state.state; return});
+window.addEventListener("popstate", function () {historyPosition = history.state.position; layers = history.state.state; renderLayer(); return});

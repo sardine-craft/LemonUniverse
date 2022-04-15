@@ -27,9 +27,10 @@
         <button onclick="window.history.back()">back</button>
         <button onclick="window.history.forward()">forward</button>
         <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear</button>
-        <button onclick="animation.push(new Frame(animation.length, layers))">save frame</button>
-        <button>next frame</button>
-        <button>previous frame</button>
+        <button onclick="animation.saveFrame()">save frame</button>
+        <button onclick="openFrame = animation.frames.length - 1; animation.frames.push(new Frame([])); animation.forward(); renderLayer()">new frame</button>
+        <button onclick="animation.backward(); renderLayer();">previous frame</button>
+        <button onclick="animation.forward(); renderLayer();">next frame</button>
     </body>
     <style>
         body {
