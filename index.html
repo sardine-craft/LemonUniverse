@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>LemonUniverse Animate</title>
+    </head>
+    <body>
+        <script>
+            var canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "display");
+            document.body.appendChild(canvas);
+            var display = document.getElementById("display");
+            var ctx = display.getContext("2d");
+
+            function resizeDisplay() {
+                display.height = window.innerHeight;
+                display.width = window.innerWidth;
+            }
+
+            resizeDisplay();
+            window.addEventListener("resize", resizeDisplay);
+        </script>
+        <script src="./drawStyle.js"></script>
+        <script src="./pen.js"></script>
+        <button onclick="window.history.back()">back</button>
+        <button onclick="window.history.forward()">forward</button>
+        <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear</button>
+        <p id="history"></p>
+    </body>
+    <style>
+        body {
+            margin: 0;
+        }
+        canvas {
+            margin: 0;
+            top: 0;
+            left: 0;
+            position: fixed;
+            z-index: -1;
+        }
+    </style>
+</html>
