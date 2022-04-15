@@ -26,15 +26,18 @@
         <script src="./pen.js"></script>
         <button onclick="window.history.back()">back</button>
         <button onclick="window.history.forward()">forward</button>
-        <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear</button>
+        <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear ALL</button>
         <button onclick="animation.saveFrame()">save frame</button>
         <button onclick="openFrame = animation.frames.length - 1; animation.frames.push(new Frame([])); animation.forward(); renderLayer()">new frame</button>
         <button onclick="animation.backward(); renderLayer();">previous frame</button>
         <button onclick="animation.forward(); renderLayer();">next frame</button>
+
+        <div id="timeline"><h2>Timeline</h2></div>
     </body>
     <style>
         body {
             margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         canvas {
             margin: 0;
@@ -45,6 +48,26 @@
         }
         img {
             display: none;
+        }
+        button {
+            background-color: white;
+            border: 2px solid grey;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 0.2em;
+            transition: 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        #timeline {
+            position: fixed;
+            height: 20%;
+            width: 100%;
+            bottom: 0;
+            background-color: black;
+            color: white;
         }
     </style>
 </html>
