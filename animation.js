@@ -20,7 +20,7 @@ var animation = {
         if (openFrame < animation.frames.length - 1) {
         openFrame++;
         layers = animation.frames[openFrame].layers;
-        history.state.state = layers;
+        //history.state.state = layers;
         } else {
             alert("there are no more frames to jump to in this direction.");
         }
@@ -29,7 +29,7 @@ var animation = {
         if (openFrame > 0) {
         openFrame--;
         layers = animation.frames[openFrame].layers;
-        history.state.state = layers;
+        //history.state.state = layers;
         } else {
             alert("there are no more frames to jump to in this direction.");
         }

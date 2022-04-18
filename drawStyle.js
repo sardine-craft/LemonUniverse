@@ -5,9 +5,9 @@ function setToDefault () {
     gradient.addColorStop("0.75", "red");
     var noise = document.getElementById("noise");
     var texture = ctx.createPattern(noise, "repeat");
-    ctx.globalAlpha = "0.7";
-    ctx.strokeStyle = texture;
-    ctx.lineWidth = 3;
+    //ctx.globalAlpha = "0.7";
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 6;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
 }

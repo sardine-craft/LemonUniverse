@@ -24,6 +24,7 @@
         <script src="./animation.js"></script>
         <script src="./drawStyle.js"></script>
         <script src="./pen.js"></script>
+        <script src="./layerProcessing.js"></script>
         <button onclick="window.history.back()">back</button>
         <button onclick="window.history.forward()">forward</button>
         <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear ALL</button>
@@ -31,6 +32,7 @@
         <button onclick="openFrame = animation.frames.length - 1; animation.frames.push(new Frame([])); animation.forward(); renderLayer()">new frame</button>
         <button onclick="animation.backward(); renderLayer();">previous frame</button>
         <button onclick="animation.forward(); renderLayer();">next frame</button>
+        <button onclick="clean(0)">Clean number 1</button>
 
         <div id="timeline"><h2>Timeline</h2></div>
     </body>

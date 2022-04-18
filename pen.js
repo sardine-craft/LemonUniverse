@@ -43,7 +43,7 @@ function addToPathByLayerName (name, data) {
     return layers.find(p => p.name === name).path.push(data);
 }
 
-var smoothing = 2;
+var smoothing = 5;
 function penTo () {
     sX = sX + ((mouseX - sX) * (1 / smoothing));
     sY = sY + ((mouseY - sY) * (1 / smoothing));
@@ -71,15 +71,18 @@ function renderLayer() {
     for (i = 0; i < layers.length; i++) {
         ctx.beginPath();
         ctx.moveTo(layers[i].path[0].x, layers[i].path[0].y);
-        for (j = 0; j < layers[i].path.length - 1; j++) {
+        for (j = 1; j < layers[i].path.length - 2; j++) {
             // ctx.lineWidth = history.state.state[i].path[j].w;
             // ctx.beginPath();
             // ctx.moveTo(history.state.state[i].path[j].x, history.state.state[i].path[j].y)
-            let px = layers[i].path[j + 1].x;
-            let py = layers[i].path[j + 1].y
-            ctx.lineTo(px, py);
+            let px = layers[i].path[j].x;
+            let py = layers[i].path[j].y;
+            let avx = (px + layers[i].path[j + 1].x) / 2;
+            let avy = (py + layers[i].path[j + 1].y) / 2;
+            ctx.quadraticCurveTo(px, py, avx, avy);
             // ctx.stroke();
         }
+        ctx.quadraticCurveTo(layers[i].path[j].x, layers[i].path[j].y, layers[i].path[j + 1].x, layers[i].path[j + 1].y);
         ctx.stroke();
         
     }
