@@ -1,3 +1,5 @@
+
+
 var historyPosition = 0;
 history.pushState({position: historyPosition, state: null}, `page: ${historyPosition}`, `?page=${historyPosition}`)
 
@@ -36,6 +38,7 @@ function penDown (e) {
     });
     ctx.beginPath();
     ctx.moveTo(sX, sY);
+    
     penIsDown = true;
 }
 
@@ -43,7 +46,7 @@ function addToPathByLayerName (name, data) {
     return layers.find(p => p.name === name).path.push(data);
 }
 
-var smoothing = 5;
+var smoothing = 2;
 function penTo () {
     sX = sX + ((mouseX - sX) * (1 / smoothing));
     sY = sY + ((mouseY - sY) * (1 / smoothing));
@@ -68,9 +71,10 @@ function clear() {
 
 function renderLayer() {
     clear(); 
-    for (i = 0; i < layers.length; i++) {
+    for (let i = 0; i < layers.length; i++) {
         ctx.beginPath();
         ctx.moveTo(layers[i].path[0].x, layers[i].path[0].y);
+        let j;
         for (j = 1; j < layers[i].path.length - 2; j++) {
             // ctx.lineWidth = history.state.state[i].path[j].w;
             // ctx.beginPath();
@@ -82,13 +86,18 @@ function renderLayer() {
             ctx.quadraticCurveTo(px, py, avx, avy);
             // ctx.stroke();
         }
+        try {
         ctx.quadraticCurveTo(layers[i].path[j].x, layers[i].path[j].y, layers[i].path[j + 1].x, layers[i].path[j + 1].y);
         ctx.stroke();
+        } catch (error) {
+            ctx.lineTo(layers[i].path[0].x, layers[i].path[0].y);
+            ctx.stroke();
+        }
         
     }
 }
 
 display.addEventListener("mousedown", penDown);
 display.addEventListener("mousemove", (e) => {mouseX = e.x; mouseY = e.y; return;});
-display.addEventListener("mouseup", (e) => {penIsDown = false; remember(layers); renderLayer(); return;});
+display.addEventListener("mouseup", (e) => {penIsDown = false; clean(layers.length - 1); remember(layers); renderLayer(); return;});
 window.addEventListener("popstate", function () {historyPosition = history.state.position; layers = history.state.state; renderLayer(); return});

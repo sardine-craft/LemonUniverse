@@ -18,6 +18,7 @@ var animation = {
     },
     forward: function () {
         if (openFrame < animation.frames.length - 1) {
+            this.saveFrame();
         openFrame++;
         layers = animation.frames[openFrame].layers;
         //history.state.state = layers;
@@ -27,6 +28,7 @@ var animation = {
     },
     backward: function () {
         if (openFrame > 0) {
+            this.saveFrame();
         openFrame--;
         layers = animation.frames[openFrame].layers;
         //history.state.state = layers;

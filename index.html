@@ -23,18 +23,57 @@
         </script>
         <script src="./animation.js"></script>
         <script src="./drawStyle.js"></script>
-        <script src="./pen.js"></script>
         <script src="./layerProcessing.js"></script>
+        <script src="./pen.js"></script>
         <button onclick="window.history.back()">back</button>
         <button onclick="window.history.forward()">forward</button>
         <button onclick='window.location.replace("http://127.0.0.1:5500/")'>Clear ALL</button>
-        <button onclick="animation.saveFrame()">save frame</button>
         <button onclick="openFrame = animation.frames.length - 1; animation.frames.push(new Frame([])); animation.forward(); renderLayer()">new frame</button>
         <button onclick="animation.backward(); renderLayer();">previous frame</button>
         <button onclick="animation.forward(); renderLayer();">next frame</button>
-        <button onclick="clean(0)">Clean number 1</button>
 
-        <div id="timeline"><h2>Timeline</h2></div>
+        <div id="timeline"><h2>Timeline</h2>
+            <canvas id="timelinedisplay"></canvas>
+            <script>
+                var timeLine = document.getElementById("timeline");
+                var tdisplay = document.getElementById("timelinedisplay");
+                function sizeTimeline () {
+                    tdisplay.width = window.innerWidth;
+                    tdisplay.height = 100;
+                }
+                sizeTimeline();
+
+                var dctx = tdisplay.getContext("2d");
+                function timeLineClear() {
+                    dctx.fillStyle = "grey";
+                    dctx.fillRect(0, 0, tdisplay.width, tdisplay.height);
+                }
+                function renderTimeline() {
+                    timeLineClear();
+                    dctx.lineWidth = 2;
+                    dctx.fillStyle = "grey";
+                    dctx.strokeStlye = "black";
+                    var keyWidth = window.innerWidth / animation.frames.length;
+                    for (g = 0; g < animation.frames.length; g++) {
+                        if (g == openFrame) {
+                            dctx.fillStyle = "blue";
+                        } else {
+                            dctx.fillStyle = "#333333";
+                        }
+                        dctx.fillRect(g * keyWidth, 0, keyWidth, tdisplay.height);
+                        dctx.beginPath();
+                        dctx.arc((g * keyWidth) + (keyWidth / 2), tdisplay.height / 2, 10, 2 * Math.PI, false);
+                        dctx.fillStyle = "black";
+                        dctx.fill();
+                    }
+                    
+                }
+
+                setInterval(renderTimeline, 20);
+
+                window.addEventListener("resize", sizeTimeline);
+            </script>
+        </div>
     </body>
     <style>
         body {
@@ -70,6 +109,9 @@
             bottom: 0;
             background-color: black;
             color: white;
+        }
+        #timelinedisplay {
+            position: relative;
         }
     </style>
 </html>
